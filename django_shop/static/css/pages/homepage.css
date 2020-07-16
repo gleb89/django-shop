@@ -1,0 +1,33 @@
+.homepage #header {
+    background-image: url('../../images/bg-header.jpg');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+    /* background-attachment: fixed; */
+    min-height: 80vh;
+}
+
+@supports (-webkit-touch-callout: none) {
+    /* CSS specific to iOS devices */
+}
+
+@supports not (-webkit-touch-callout: none) {
+    /* CSS for other than iOS devices */
+    .homepage #header {
+        background-attachment: fixed;
+    }
+}
+
+.homepage #header #page-header-h1 {
+    color: white;
+    font-size: 4.3rem;
+    font-weight: 400;
+    text-shadow: 1px 2px 1px black;
+}
+
+@media (max-width: 768px) {
+    .homepage #header #page-header-h1 {
+        font-size: 8vw;
+        font-weight: 700;
+    }
+}

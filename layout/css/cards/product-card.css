@@ -1,0 +1,38 @@
+/* .product-card {} */
+
+.product-card__inner {
+    text-align: center;
+}
+
+.product-card__img {}
+
+.product-card__img img {
+    width: 100%;
+    height: auto;
+}
+
+.product-card__title {
+    font-size: 1.6rem;
+    font-weight: 600;
+
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.product-card__price {
+    margin-bottom: 15px;
+}
+
+.product-card__price--discount {
+    color: #888;
+    text-decoration: line-through;
+}
+
+.product-card__price--item {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.product-card__add-to-cart {
+    text-align: center;
+}

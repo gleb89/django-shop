@@ -1,0 +1,41 @@
+body {
+    display: grid;
+    /* grid-template-rows: repeat(2, auto) 1fr auto; */
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+#header {
+    background-color: #EEE;
+    padding: 150px 0 100px;
+}
+
+#header #page-header-h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0;
+}
+
+@media (max-width: 575.98px) {
+    #header #page-header-h1 {
+        font-size: 10vw;
+    }
+}
+
+#header #page-description {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-top: 30px;
+}
+
+/* #content {} */
+/* #content #main {} */
+
+#footer {
+    background-color: #EEE;
+    height: fit-content;
+}
+
+/* Pgination fix */
+.pagination {
+    flex-wrap: wrap;
+}

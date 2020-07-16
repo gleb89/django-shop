@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block body_classes %}{% spaceless %}
+    homepage
+{% endspaceless %}{% endblock %}
+
+{% block content %}
+    <main id="main">
+        {% if categories %}
+            <div id="section-categories" class="section-type-one">
+                <div id="section-categories__inner" class="container">
+                    {% for object in categories %}
+                        <div class="category">
+                            <a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if products %}
+            <section class="section-type-one">
+                <div class="section-type-one__title container">
+                    <h2>Новинки</h2>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        {% for object in products %}
+                            {% include 'shop/cards/product-card.html' with product=object %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="container text-center mt-4">
+                    <a href=" {% url 'products:list' %}" class="btn btn-outline-primary">Перейти в каталог товаров</a>
+                </div>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}

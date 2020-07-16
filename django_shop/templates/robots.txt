@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /admin
+Disallow: /cart/
+Disallow: /cart/*
+Disallow: /search-results/
+Disallow: /search-results/*
+
+Allow: /products/
+Allow: /p/
+Allow: /category/*
+
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml
+Host: {{ request.scheme }}://{{ request.get_host }}

@@ -1,0 +1,37 @@
+<div class="container mb-4">
+    {{ request.GET.price }}
+    {{ request.GET.category }}
+
+    <form action="" autocomplete="off" method="get">
+        <div class="form-row align-items-end">
+            {% comment %}
+            <!--
+                TODO:
+                    - phone model
+                    - discount
+            -->
+            {% endcomment %}
+            <div class="form-group col-lg-2">
+                <label for="filter-select-categories">Цена</label>
+                <select id="filter-select-categories" class="form-control" name="price">
+                    <option {% if request.GET.price == '' or not request.GET.price %}selected{% endif %} disabled>Сортировать по...</option>
+                    <option {% if request.GET.price == 'asc' %}selected{% endif %} value="asc">Возрастанию</option>
+                    <option {% if request.GET.price == 'desc' %}selected{% endif %} value="desc">Убыванию</option>
+                </select>
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="filter-select-categories">Категория</label>
+                <select id="filter-select-categories" class="form-control" name="category">
+                    <option {% if not request.GET.category %}selected{% endif %} value="">Все категори</option>
+                    {% for category in categories %}
+                        <option {% if request.GET.category == category.slug %}selected{% endif %} value="{{ category.slug }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-lg-3 text-right text-lg-left">
+                <a href="{% url 'products:list' %}" class="btn btn-outline-secondary mr-2">Сбросить</a>
+                <button type="submit" class="btn btn-primary">Сортировать</button>
+            </div>
+        </div>
+    </form>
+</div>

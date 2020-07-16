@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+
+{% block body_classes %}{% spaceless %}
+    {{ block.super }} checkout-success-page
+{% endspaceless %}{% endblock %}
+
+
+{% block content %}
+    <main id="main">
+        <div class="container">
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis maxime reprehenderit exercitationem voluptates consequuntur consectetur ad sit, amet modi nostrum at tempora vel illum odit voluptas nihil recusandae veniam obcaecati!</p>
+        </div>
+    </main>
+{% endblock %}

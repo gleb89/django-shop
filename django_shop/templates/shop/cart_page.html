@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block body_classes %}{% spaceless %}
+    {{ block.super }} cart-page
+{% endspaceless %}{% endblock %}
+
+
+{% block content %}
+    {% if request.user.is_superuser %}
+        {% if request.session %}
+            <div class="container">
+                <div style="background-color: gold; color: #333; padding: 15px;" class="mb-4">
+                    {{ request.session.keys }}
+                </div>
+                {% if request.session.cart %}
+                    <div style="background-color: #111; color: #EEE; padding: 15px;" class="mb-4">
+                        {{ request.session.cart }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <main id="main">
+        {% if request.session.cart %}
+            <div class="container mb-5">
+                <form action="{% url 'cart:clear' %}" method="post">{% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-ban"></i> Очистить корзину
+                    </button>
+                </form>
+            </div>
+            <div class="container">
+                <form action="{% url 'cart:update' %}" method="POST">{% csrf_token %}
+                    {% for cart_item in request.session.cart %}
+                        <div class="row mb-3">
+                            <div class="col-6 col-md-5">
+                                <div class="h5">
+                                    {{ cart_item.name }}
+                                </div>
+                                <small class="text-muted">Артикул: {{ cart_item.sku }}</small>
+                            </div>
+                            <div class="col-6 col-md-3 text-center">
+                                {{ cart_item.price|floatformat:"-2" }} руб
+                            </div>
+                            <div class="col-6 col-md-3 text-center">
+                                {{ cart_item.qty }} шт
+                            </div>
+                            <div class="col-6 col-md-1 text-center text-md-right">
+                                <button class="btn btn-danger" type="submit" name="remove-item" value="{{ cart_item.sku }}" title="Удалить {{ cart_item.name }} из корзины">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {% include 'shop/includes/total-cart.html' %}
+
+                    <div class="row mt-4">
+                        <div class="col-0 offset-lg-7"></div>
+                        <div class="col-12 col-lg-5 text-center text-lg-right">
+                            <button class="btn btn-lg btn-success" type="submit" name="checkout" value="checkout">
+                                <i class="fas fa-check"></i> Оформить заказ
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <div class="container text-center">
+                Ваша корзина пуста =(
+            </div>
+        {% endif %}
+    </main>
+{% endblock %}

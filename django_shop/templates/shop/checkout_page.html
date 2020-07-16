@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+
+{% block body_classes %}{% spaceless %}
+    {{ block.super }} checkout-page
+{% endspaceless %}{% endblock %}
+
+
+{% block content %}
+    <main id="main">
+        {% if request.session.cart %}
+            <div class="container mb-5">
+                <a href="{% url 'cart:page' %}" class="btn btn-warning">
+                    <i class="fas fa-chevron-left"></i> Вернуться в корзину
+                </a>
+            </div>
+            <div class="container">
+                <div class="h3 text-center mb-3">Ваш заказ:</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Кол-во</th>
+                            <th scope="col">Цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cart_item in request.session.cart %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ cart_item.name }}</td>
+                                <td>{{ cart_item.qty }}</td>
+                                <td>{{ cart_item.price|floatformat:"-2" }} руб</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% include 'shop/includes/total-cart.html' %}
+            </div>
+
+            <div class="container mt-4">
+                <form action="{% url 'cart:checkout' %}" novalidate autocomplete="off" method="POST">{% csrf_token %}
+                    <div class="p-4 bg-light">
+                        <div class="form-group">
+                            {% comment %}<!-- <label for="checkout-fio">Ваши ФИО <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="checkout-fio" id="checkout-fio" placeholder="Фамилия Имя Отчество" aria-describedby="checkout-fio-help">
+                            <small id="checkout-fio-help" class="form-text text-muted">Укажите вашу Фамилию, Имя и Отчество</small> -->{% endcomment %}
+                            <label for="{{ form.fio.id_for_label }}">Ваши ФИО <span class="text-danger">*</span></label>
+                            {% if form.is_bound %}
+                                {% if form.fio.errors %}
+                                    {% render_field form.fio class="form-control is-invalid" placeholder="Фамилия Имя Отчество" aria-describedby="checkout-fio-help" %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.fio.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {% render_field form.fio class="form-control is-valid" placeholder="Фамилия Имя Отчество" aria-describedby="checkout-fio-help" %}
+                                {% endif %}
+                            {% else %}
+                                {% render_field form.fio class="form-control" placeholder="Фамилия Имя Отчество" aria-describedby="checkout-fio-help" %}
+                            {% endif %}
+                            {% if form.fio.help_text %}
+                                <small id="checkout-fio-help" class="form-text text-muted">{{ form.fio.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12 col-lg-3 mb-3">
+                                {% comment %}<!-- <label for="checkout-zip">Индекс <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="checkout-zip" id="checkout-zip" placeholder="Индекс" aria-describedby="checkout-zip-help">
+                                <small id="checkout-zip-help" class="form-text text-muted"><a href="https://pochta.ru/post-index" target="_blank">Найти свой индекс</a></small> -->{% endcomment %}
+                                <label for="{{ form.zip_code.id_for_label }}">Индекс <span class="text-danger">*</span></label>
+                                {% if form.is_bound %}
+                                    {% if form.zip_code.errors %}
+                                        {% render_field form.zip_code class="form-control is-invalid" placeholder="Индекс" aria-describedby="checkout-fio-help" %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.zip_code.errors %}
+                                                {{ error }}<br>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {% render_field form.zip_code class="form-control is-valid" placeholder="Индекс" aria-describedby="checkout-fio-help" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.zip_code class="form-control" placeholder="Индекс" aria-describedby="checkout-zip-code-help" %}
+                                {% endif %}
+                                {% if form.fio.help_text %}
+                                    <small id="checkout-zip-code-help" class="form-text text-muted">{{ form.zip_code.help_text|safe }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 col-lg-9 mb-3">
+                                {% comment %}<!-- <label for="checkout-address">Адрес <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="checkout-address" id="checkout-address" placeholder="Город, улица, дом, квартира" aria-describedby="checkout-address-help">
+                                <small id="checkout-address-help" class="form-text text-muted">Город, улица, дом, квартира</small> -->{% endcomment %}
+                                <label for="{{ form.address.id_for_label }}">Адрес <span class="text-danger">*</span></label>
+                                {% if form.is_bound %}
+                                    {% if form.address.errors %}
+                                        {% render_field form.address class="form-control is-invalid" placeholder="Город, улица, дом, квартира" aria-describedby="checkout-address-help" %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.address.errors %}
+                                                {{ error }}<br>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {% render_field form.address class="form-control is-valid" placeholder="Город, улица, дом, квартира" aria-describedby="checkout-address-help" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.address class="form-control" placeholder="Город, улица, дом, квартира" aria-describedby="checkout-address-help" %}
+                                {% endif %}
+                                {% if form.address.help_text %}
+                                    <small id="checkout-address-help" class="form-text text-muted">{{ form.address.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12 col-lg-6 mb-3">
+                                {% comment %}<!-- <label for="checkout-phone">Телефон <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="checkout-phone" id="checkout-phone" placeholder="Номер вашего телефона" aria-describedby="checkout-phone-help">
+                                <small id="checkout-phone-help" class="form-text text-muted">Укажите в формате: +7 999 000-00-00</small> -->{% endcomment %}
+                                <label for="{{ form.phone.id_for_label }}">Телефон <span class="text-danger">*</span></label>
+                                {% if form.is_bound %}
+                                    {% if form.phone.errors %}
+                                        {% render_field form.phone class="form-control is-invalid" placeholder="Номер вашего телефона" aria-describedby="checkout-phone-help" %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.phone.errors %}
+                                                {{ error }}<br>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {% render_field form.phone class="form-control is-valid" placeholder="Номер вашего телефона" aria-describedby="checkout-phone-help" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.phone class="form-control" placeholder="Номер вашего телефона" aria-describedby="checkout-phone-help" %}
+                                {% endif %}
+                                {% if form.phone.help_text %}
+                                    <small id="checkout-phone-help" class="form-text text-muted">{{ form.phone.help_text }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="col-12 col-lg-6 mb-3">
+                                {% comment %}<!-- <label for="checkout-email">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" name="checkout-email" id="checkout-email" placeholder="Ваш Email" aria-describedby="checkout-email-help">
+                                <small id="checkout-email-help" class="form-text text-muted">Укажите ваш действующий email</small> -->{% endcomment %}
+                                <label for="{{ form.email.id_for_label }}">Email <span class="text-danger">*</span></label>
+                                {% if form.is_bound %}
+                                    {% if form.email.errors %}
+                                        {% render_field form.email class="form-control is-invalid" placeholder="Ваш Email" aria-describedby="checkout-email-help" %}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.email.errors %}
+                                                {{ error }}<br>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {% render_field form.email class="form-control is-valid" placeholder="Ваш Email" aria-describedby="checkout-email-help" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field form.email class="form-control" placeholder="Ваш Email" aria-describedby="checkout-email-help" %}
+                                {% endif %}
+                                {% if form.email.help_text %}
+                                    <small id="checkout-email-help" class="form-text text-muted">{{ form.email.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {% comment %}<!-- <label for="checkout-message">Сообщение</label>
+                            <textarea class="form-control" name="checkout-message" id="checkout-message" rows="3" aria-describedby="checkout-message-help"></textarea>
+                            <small id="checkout-message-help" class="form-text text-muted">Укажите комментарий или примечание к вашему заказу</small> -->{% endcomment %}
+                            <label for="{{ form.message.id_for_label }}">Сообщение</label>
+                            {% if form.is_bound %}
+                                {% if form.message.errors %}
+                                    {% render_field form.message class="form-control is-invalid" rows="3" aria-describedby="checkout-message-help" %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.message.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {% render_field form.message class="form-control is-valid" rows="3" aria-describedby="checkout-message-help" %}
+                                {% endif %}
+                            {% else %}
+                                {% render_field form.message class="form-control" rows="3" aria-describedby="checkout-message-help" %}
+                            {% endif %}
+                            {% if form.message.help_text %}
+                                <small id="checkout-message-help" class="form-text text-muted">{{ form.message.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center text-lg-right">
+                        <button type="submit" class="btn btn-lg btn-success">
+                            <i class="fas fa-paper-plane"></i> Отправить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <div class="container text-center">
+                Вы не можете оформить заказ, добавьте товар в корзину
+            </div>
+        {% endif %}
+    </main>
+{% endblock %}

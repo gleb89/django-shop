@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block body_classes %}{% spaceless %}
+    {{ block.super }} search-results
+{% endspaceless %}{% endblock %}
+
+{% block content %}
+    {% include 'shop/includes/search_section.html' %}
+
+    {% if products %}
+        <main id="main">
+            <div class="container">
+                <div class="row">
+                    {% for product in products %}
+                        {% include 'shop/cards/product-card.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+
+        {% include 'shop/includes/pagination-search.html' %}
+    {% endif %}
+{% endblock %}

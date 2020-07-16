@@ -1,0 +1,25 @@
+<div class="product-card col-12 col-md-6 col-lg-4 mb-4">
+    <div class="product-card__inner">
+        <div class="product-card__img">
+            <a href="{% url 'products:detail' id=product.id %}">
+                {% if product.main_image %}
+                    <img src="{{ product.main_image_thumbnail.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/256x256" alt="">
+                {% endif %}
+            </a>
+        </div>
+        <div class="product-card__title">
+            <a href="{% url 'products:detail' id=product.id %}">{{ product.name }}</a>
+        </div>
+        <div class="product-card__price">
+            {% if product.price_discount %}
+                <div class="product-card__price--discount">{{ product.price_discount|floatformat:"-2" }} руб</div>
+            {% endif %}
+            <div class="product-card__price--item">{{ product.price|floatformat:"-2" }} руб</div>
+        </div>
+    </div>
+    <div class="product-card__add-to-cart">
+        {% include 'shop/includes/add-to-cart.html' with product_sku=product.sku product_name=product.name product_qty=1 product_price=product.price %}
+    </div>
+</div>

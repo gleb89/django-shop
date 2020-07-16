@@ -1,0 +1,27 @@
+{% load shop_tags %}
+<form class="add-to-cart-form" action="{% url 'cart:add' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="product_sku" value="{{ product_sku }}">
+    <input type="hidden" name="product_name" value="{{ product_name }}">
+    <input type="hidden" name="product_price" value="{{ product_price }}">
+    <input type="hidden" name="product_qty" value="{{ product_qty }}">
+    <input type="hidden" name="url_from" value="{{ request.path }}">
+
+    {# <!-- {% product_in_cart request=request product_sku=product_sku as in_cart %} --> #}
+
+    <div class="in-cart-wrap">
+        {% comment %}<!-- <button type="submit" class="yet-not-in-cart btn btn-success">
+            <i class="fas fa-cart-plus"></i> В корзину
+        </button> -->
+        <!-- {% if not in_cart %}
+            <button type="submit" class="yet-not-in-cart btn btn-success">
+                <i class="fas fa-cart-plus"></i> В корзину
+            </button>
+        {% else %}
+            <button class="alredy-in-cart btn btn-secondary" disabled>
+                <i class="fas fa-check"></i> Товар в корзине
+            </button>
+        {% endif %} -->{% endcomment %}
+    </div>
+</form>
+

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body_classes %}{% spaceless %}
+    {{ block.super }} 404-error-page
+{% endspaceless %}{% endblock %}
+
+
+{% block content %}
+    <main id="main">
+        <div class="container">
+            <div class="embed-responsive embed-responsive-21by9">
+                <iframe src="//coub.com/embed/17vmj1?muted=false&amp;autostart=true&amp;originalSize=true&amp;startWithHD=true" allowfullscreen="false" frameborder="0"></iframe>
+            </div>
+
+            <div class="text-center">
+                <a href="{% url 'homepage' %}" class="h3">&lt;&lt; Вернуться на главную</a>
+            </div>
+        </div>
+    </main>
+{% endblock %}

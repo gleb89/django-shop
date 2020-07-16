@@ -1,0 +1,15 @@
+#main-nav {
+    background-color: #366b83;
+}
+
+#main-nav .navbar-text {
+    cursor: default;
+}
+
+#main-nav a#cart-link_xs {
+    color: rgba(255,255,255,.5);
+}
+
+#main-nav a#cart-link_xs:hover {
+    color: rgba(255,255,255,.7);
+}

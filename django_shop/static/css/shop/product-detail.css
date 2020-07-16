@@ -1,0 +1,25 @@
+/* .product-detail {} */
+
+.product-detail .product__images .product__images--main img {
+    width: 100%;
+    height: auto;
+}
+
+.product-detail .product__images--thumbs-wrap {
+    margin-top: 15px;
+
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 575.98px) {
+    .product-detail .product__images--thumbs-wrap {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.product-detail .product__images--thumbs-wrap .product__images--thumbnail img {
+    width: 100%;
+    height: auto;
+}

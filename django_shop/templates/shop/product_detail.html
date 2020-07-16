@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block body_classes %}{% spaceless %}
+    {{ block.super }} product-detail
+{% endspaceless %}{% endblock %}
+
+{% block css_libs %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+{% endblock %}
+
+{% block js_libs %}
+    {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <main id="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-5 mb-4 mb-lg-0">
+                    <div class="product__images">
+                        <div class="product__images--main">
+                            {% if product.main_image %}
+                                <a href="{{ product.main_image.url }}" data-fancybox="gallery-{{ product.id }}" data-caption="{{ product.name }} #1">
+                                    <img src="{{ product.main_image_thumbnail.url }}" alt="{{ product.name }}">
+                                </a>
+                            {% else %}
+                                <a href="https://via.placeholder.com/1280x768" data-fancybox="gallery-{{ product.id }}" data-caption="{{ product.name }} #1">
+                                    <img src="https://via.placeholder.com/512x512" alt="">
+                                </a>
+                            {% endif %}
+                        </div>
+                        {% if product_images %}
+                            <div class="product__images--thumbs-wrap">
+                                {% for product_image in product_images %}
+                                    <a class="product__images--thumbnail" href="{{ product_image.image.url }}" data-fancybox="gallery-{{ product.id }}" data-caption="{{ product.name }} #{{ forloop.counter }}">
+                                        <img src="{{ product_image.image_thumbnail.url }}" alt="">
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-12 col-lg-7">
+                    <div class="product__info-item">
+                        <div class="mb-2">
+                            <strong>Артикул:</strong> {{ product.sku }}
+                        </div>
+                        <div>
+                            <strong>Категория:</strong> {% for category in product.categories.all %}<a href="{% url 'category:slug' slug=category.slug %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+                        </div>
+                        <div class="my-3">
+                            {{ product.body|safe }}
+                        </div>
+                        <div class="my-4">
+                            {% if product.price_discount %}
+                                <div class="h5 text-muted product-price__dicount">{{ product.price_discount|floatformat:"-2" }} руб</div>
+                            {% endif %}
+                            <div class="h4">{{ product.price|floatformat:"-2" }} руб</div>
+                        </div>
+                        <div class="product-add-to-cart">
+                            {% include 'shop/includes/add-to-cart.html' with product_sku=product.sku product_name=product.name product_qty=1 product_price=product.price %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% if other_products %}
+        <section class="section-type-one">
+            <div class="section-type-one__title container">
+                <h2>Другие товары</h2>
+            </div>
+            <div class="container">
+                <div class="row">
+                    {% for product in other_products %}
+                        {% include 'shop/cards/product-card.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+{% endblock %}

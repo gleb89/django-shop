@@ -1,0 +1,26 @@
+.section-type-one {
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+.section-type-one__title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-type-one__title::after {
+    background-color: #333;
+    content: "";
+
+    display: block;
+    width: 64px;
+    height: 1px;
+
+    margin: 15px auto 0;
+}
+
+.section-type-one__title h2 {
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+}

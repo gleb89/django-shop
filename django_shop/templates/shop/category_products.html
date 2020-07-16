@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block body_classes %}{% spaceless %}
+    {{ block.super }} products-category
+{% endspaceless %}{% endblock %}
+
+
+{% block content %}
+    {% if products %}
+        <main id="main">
+            <div class="container">
+                <div class="row">
+                    {% for product in products %}
+                        {% include 'shop/cards/product-card.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+
+        {% include 'shop/includes/pagination.html' %}
+    {% endif %}
+{% endblock %}

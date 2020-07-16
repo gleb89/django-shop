@@ -1,0 +1,27 @@
+/* .product_page {} */
+
+/* .product_page .product__images {} */
+
+.product_page .product__images--main {
+    margin-bottom: 15px;
+}
+
+.product_page .product__images--main img {
+    width: 100%;
+    height: auto;
+}
+
+.product_page .product__images--thumbs-wrap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+}
+
+.product_page .product__images--thumbnail img {
+    width: 100%;
+    height: auto;
+}
+
+.product-price__dicount {
+    text-decoration: line-through;
+}
