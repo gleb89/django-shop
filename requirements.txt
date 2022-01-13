@@ -9,7 +9,7 @@ django-unused-media==0.1.13
 django-widget-tweaks==1.4.8
 gunicorn==20.0.4
 pilkit==2.0
-Pillow==7.1.2
+Pillow==9.0.0
 psycopg2-binary==2.8.5
 pytz==2020.1
 six==1.14.0
